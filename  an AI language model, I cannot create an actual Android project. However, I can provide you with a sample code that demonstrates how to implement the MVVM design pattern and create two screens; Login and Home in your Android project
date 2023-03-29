@@ -1,0 +1,101 @@
+First, Let's create a model class to hold our user login details:
+```
+data class User(
+    val username: String,
+    val password: String
+)
+```
+Next, create the Login Activity XML layout file:
+```
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.mvvmlogin.viewmodel.LoginViewModel" />
+    </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <EditText
+            android:id="@+id/usernameEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Username"
+            android:text="@{viewModel.username}"
+            app:layout_constraintTop_toTopOf="parent" />
+        <EditText
+            android:id="@+id/passwordEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:text="@{viewModel.password}"
+            app:layout_constraintTop_toBottomOf="@+id/usernameEditText" />
+        <Button
+            android:id="@+id/loginButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Login"
+            android:onClick="@{() -> viewModel.onLoginClick()}"
+            app:layout_constraintTop_toBottomOf="@+id/passwordEditText" />
+    </LinearLayout>
+</layout>
+```
+In the same directory, create the LoginViewModel class:
+```
+class LoginViewModel : ViewModel() {
+    var username = ""
+    var password = ""
+    fun onLoginClick() {
+        // perform login logic
+    }
+}
+```
+Now let's create the Home Activity XML layout file:
+```
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+ 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+ 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Welcome to the Home Screen!" />
+ 
+    </LinearLayout>
+ 
+</layout>
+```
+In the same directory, create the HomeViewModel class:
+```
+class HomeViewModel : ViewModel() {
+    // ViewModel implementation
+}
+```
+Finally, create a navigation graph file (nav_graph.xml) that links the two screens:
+```
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/loginFragment">
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.mvvmlogin.view.LoginFragment"
+        android:label="@string/login"
+        tools:layout="@layout/login_fragment" />
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.mvvmlogin.view.HomeFragment"
+        android:label="@string/home"
+        tools:layout="@layout/home_fragment" />
+</navigation>
+```
+With these files, you can create an Android project that uses the MVVM design pattern with two screens; Login and Home. Feel free to build on this code and customize it to fit your project's needs.
